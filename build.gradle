@@ -21,16 +21,21 @@ repositories {
 dependencies {
     // The production code uses the SLF4J logging API at compile time
     compile 'org.slf4j:slf4j-api:1.7.7'
-    // we want some annotations to be compiled, and they are a child of the runtime
+
+    // runtime jar we want to exclude from eclipses configuration
+    runtime 'org.hibernate:hibernate-entitymanager:4.3.6.Final'
+
+    // ERROR: we want some annotations to be compiled, and they are a child of the runtime
     compile 'org.hibernate.common:hibernate-commons-annotations:4.0.5.Final'
 
-	  runtime 'org.hibernate:hibernate-entitymanager:4.3.6.Final'
+    // another jar thats not a dependency
+    compile 'com.google.guava:guava:18.0'
 
     testCompile "junit:junit:4.11"
 }
 
 eclipse {
     classpath {
-        minusConfigurations += [ configurations.runtime ]
+        minusConfigurations += [ configurations.runtime.copy() ]
     }
 }
